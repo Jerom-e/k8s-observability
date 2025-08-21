@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: grafana-cert
+  namespace: kubernetes-gra-pro
+spec:
+  secretName: grafana-tls
+  commonName: grafana.kubeiac.zone
+  dnsNames:
+    - grafana.kubeiac.zone
+  duration: 8760h
+  issuerRef:
+    name: internal-ca-issuer
+    kind: ClusterIssuer

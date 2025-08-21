@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-prometheus
+  namespace: kubernetes-gra-pro
+  annotations:
+    konghq.com/backend-protocol: http
+    konghq.com/protocols: http
+    cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+spec:
+  ingressClassName: kong
+  tls:
+    - hosts:
+        - prometheus.kubeiac.zone
+      secretName: prometheus-tls
+  rules:
+    - host: prometheus.kubeiac.zone
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus-server
+                port:
+                  number: 80
